@@ -1,6 +1,5 @@
 'use client';
-import { useDispatch } from 'react-redux';
-import { addItem } from '../../store/cartSlice';
+import { useCartActions } from '../Hooks/useCartActions';
 
 interface Product {
     id: string;
@@ -13,23 +12,32 @@ interface ProductItemProps {
 }
 
 const CartItem: React.FC<ProductItemProps> = ({ product }) => {
-    const dispatch = useDispatch();
+    const { addToCart, removeFromCart, setQuantity } = useCartActions();
 
     const handleAddToCart = () => {
-        dispatch(
-            addItem({
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                quantity: 1,
-            }),
-        );
+        addToCart({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            quantity: 1,
+        });
     };
+
+    const handleRemoveFromCart = () => {
+        removeFromCart(product.id);
+    };
+
+    const handleSetQuantity = () => {
+        setQuantity(product.id, 1);
+    };
+
     return (
-        <div>
+        <div className="text-white">
             <h3>{product.name}</h3>
             <p>price {product.price}</p>
             <button onClick={handleAddToCart}>Add to Cart</button>
+            <button onClick={handleRemoveFromCart}>Remove from Cart</button>
+            <button onClick={handleSetQuantity}>One more</button>
         </div>
     );
 };
