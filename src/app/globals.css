@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 body {
-  @apply bg-neutral-light text-text-primary font-sans; 
+  @apply bg-white text-text-primary font-sans; 
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   body {
     @apply bg-neutral-dark text-text-secondary;
   }
