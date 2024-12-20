@@ -9,25 +9,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: {
-          light: '#5DA3FA', 
-          DEFAULT: '#3B82F6', 
-          dark: '#2563EB', 
-        },
-        secondary: {
-          light: '#FFEEDB', 
-          DEFAULT: '#FFCC99', 
-          dark: '#E6A671', 
-        },
-        neutral: {
-          light: '#F7F7F7', 
-          DEFAULT: '#E5E5E5', 
-          dark: '#A3A3A3', 
-        },
-        text: {
-          primary: '#1F2937', 
-          secondary: '#4B5563',
-        },
+        'neutral-light': '#f7f9fa', 
+        'neutral-dark': '#232f3e', 
+        'text-primary': '#111827', 
+        'text-secondary': '#d1d5db', 
+        'button-primary': '#ff9900', 
+        'button-secondary': '#f08804', 
+        'price-red': '#b12704', 
       },
     },
   },

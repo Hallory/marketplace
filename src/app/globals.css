@@ -2,14 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   @apply bg-neutral-light text-text-primary font-sans; 
 }
-
 
 @media (prefers-color-scheme: dark) {
   body {
     @apply bg-neutral-dark text-text-secondary;
   }
+}
+
+button {
+  @apply rounded-lg text-white font-bold py-2 px-4;
+}
+
+button.primary {
+  @apply bg-button-primary hover:bg-button-secondary;
+}
+
+button.secondary {
+  @apply bg-button-secondary hover:bg-button-primary;
+}
+
+.price {
+  @apply text-price-red font-bold text-lg;
 }
