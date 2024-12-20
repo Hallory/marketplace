@@ -31,27 +31,71 @@ const ProductDetailsPage = () => {
         </div>
 
         <div className="w-2/6 max-h-[760px] flex flex-col pt-5">
-        <div className="w-full flex justify-center">
-            <img src={product.image} className="max-w-60 max-h-60 object-cover rounded-md" alt="" />
-        </div>
-          <h1 className="text-3xl font-bold">{product.title}</h1>
-          <p className="my-4 text-lg">Size: 
-            <ul className="flex gap-2">
-              <li className="bg-gray-300 px-2 rounded-md hover:bg-gray-400 cursor-pointer">Small</li>
-              <li className="bg-gray-300 px-2 rounded-md hover:bg-gray-400 cursor-pointer">Medium</li>
-              <li className="bg-gray-300 px-2 rounded-md hover:bg-gray-400 cursor-pointer">Large</li>
+          <div className="w-full flex justify-center">
+            <img
+              src={product.image}
+              className="max-w-60 max-h-60 object-cover rounded-md"
+              alt=""
+            />
+          </div>
+          <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
+
+          <div className="mb-6">
+            <p className="text-lg font-semibold mb-2">Size:</p>
+            <ul className="flex gap-3">
+              {["Small", "Medium", "Large"].map((size) => (
+                <li
+                  key={size}
+                  className="bg-gray-200 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-300 cursor-pointer transition"
+                >
+                  {size}
+                </li>
+              ))}
             </ul>
-          </p>
-          <p className="my-4 text-lg">Color: 
-            <ul className="flex gap-2">
-              <li className="bg-gray-300 px-2 rounded-md hover:bg-gray-400 cursor-pointer">Red</li>
-              <li className="bg-gray-300 px-2 rounded-md hover:bg-gray-400 cursor-pointer">Green</li>
-              <li className="bg-gray-300 px-2 rounded-md hover:bg-gray-400 cursor-pointer">Blue</li>
+          </div>
+
+          <div className="mb-6">
+            <p className="text-lg font-semibold mb-2">Color:</p>
+            <ul className="flex gap-3">
+              {["Red", "Green", "Blue"].map((color) => (
+                <li
+                  key={color}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium cursor-pointer transition ${
+                    color === "Red"
+                      ? "bg-red-500 text-white hover:bg-red-600"
+                      : color === "Green"
+                      ? "bg-green-500 text-white hover:bg-green-600"
+                      : "bg-blue-500 text-white hover:bg-blue-600"
+                  }`}
+                >
+                  {color}
+                </li>
+              ))}
             </ul>
-          </p>
-          <p>Delivery time: 3-5 days</p>
-          <p>Delivery </p>
-          <p>Price: {product.price} EUR </p>
+          </div>
+
+          <div className="mb-6">
+            <p className="text-lg font-semibold">Delivery time:</p>
+            <p className="text-gray-700">3-5 days</p>
+          </div>
+
+          <div className="mb-6">
+            <p className="text-lg font-semibold mb-2">Delivery variants:</p>
+            <ul className="flex gap-3">
+              {["Standard", "Express"].map((variant) => (
+                <li
+                  key={variant}
+                  className="bg-gray-200 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-300 cursor-pointer transition"
+                >
+                  {variant}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="text-lg font-bold">Price: {product.price} EUR</p>
+          </div>
         </div>
       </div>
     </div>
