@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface CartItem {
     id: number;
@@ -11,36 +11,41 @@ interface CartItem {
 
 interface CartState {
     items: CartItem[];
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
 }
 
 const initialState: CartState = {
-    items: [
-        {
-            id: 1,
-            title: 'Product 1',
-            price: 10.99,
-            description: 'This is a product',
-            image: 'https://via.placeholder.com/150',
-            quantity: 1,
-        },
-        {
-            id: 2,
-            title: 'Product 2',
-            price: 19.99,
-            description: 'This is another product',
-            image: 'https://via.placeholder.com/150',
-            quantity: 2,
-        },
-        {
-            id: 3,
-            title: 'Product 3',
-            price: 29.99,
-            description: 'This is yet another product',
-            image: 'https://via.placeholder.com/150',
-            quantity: 3,
-        },
-    ],
+    items: [],
+    status: 'idle',
 };
+
+export const fetchCartProducts = createAsyncThunk<CartItem[], number>(
+    'products/fetchAll',
+    async (id) => {
+        const response = await fetch(`https://fakestoreapi.com/carts/${id}`);
+        const cartData = await response.json();
+
+        const productPromises = cartData.products.map(
+            async (item: { productId: number; quantity: number }) => {
+                const productResponse = await fetch(
+                    `https://fakestoreapi.com/products/${item.productId}`,
+                );
+                const product = await productResponse.json();
+                return {
+                    id: product.id,
+                    title: product.title,
+                    price: product.price,
+                    description: product.description,
+                    image: product.image,
+                    quantity: item.quantity,
+                };
+            },
+        );
+
+        const products = await Promise.all(productPromises);
+        return products;
+    },
+);
 
 const cartSlice = createSlice({
     name: 'cart',
@@ -64,6 +69,19 @@ const cartSlice = createSlice({
                 console.log(existingItem.quantity, 'quantity', existingItem.id, 'id');
             }
         },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchCartProducts.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchCartProducts.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.items = action.payload;
+            })
+            .addCase(fetchCartProducts.rejected, (state) => {
+                state.status = 'failed';
+            });
     },
 });
 

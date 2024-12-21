@@ -1,11 +1,13 @@
 'use client';
 
-import { RootState } from '../store/store';
+import { useEffect } from 'react';
+import { AppDispatch, RootState } from '../store/store';
 import CartItem from './CartItem/CartItem';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCartProducts } from '../store/cartSlice';
 
 const CartPage = () => {
-    const cartItems = useSelector((state: RootState) => state.cart.items);
+    const { items, status } = useSelector((state: RootState) => state.cart);
     interface CartItem {
         id: number;
         title: string;
@@ -14,10 +16,27 @@ const CartPage = () => {
         image: string;
         quantity: number;
     }
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchCartProducts(1));
+        }
+    }, [status, dispatch]);
+
+    if (status === 'loading') {
+        return <p>Loading...</p>;
+    }
+
+    if (status === 'failed') {
+        return <p>Failed to load products.</p>;
+    }
+
     return (
         <div>
-            {cartItems[0] ? (
-                cartItems.map((item: CartItem) => (
+            {items[0] ? (
+                items.map((item: CartItem) => (
                     <CartItem
                         key={item.id}
                         product={!item.quantity ? { ...item, quantity: 1 } : item}
