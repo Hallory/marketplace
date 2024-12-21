@@ -18,6 +18,7 @@ const CartPage = () => {
     }
 
     const dispatch = useDispatch<AppDispatch>();
+    const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
 
     useEffect(() => {
         if (status === 'idle') {
@@ -34,18 +35,34 @@ const CartPage = () => {
     }
 
     return (
-        <div>
-            {items[0] ? (
-                items.map((item: CartItem) => (
-                    <CartItem
-                        key={item.id}
-                        product={!item.quantity ? { ...item, quantity: 1 } : item}
-                    />
-                ))
-            ) : (
-                <h2>Cart is empty</h2>
-            )}
-        </div>
+        <>
+            <h1>Cart</h1>
+            <div className="flex">
+                <div className=" grid grid-cols-5 gap-2">
+                    {items[0] ? (
+                        items.map((item: CartItem) => (
+                            <CartItem
+                                key={item.id}
+                                product={!item.quantity ? { ...item, quantity: 1 } : item}
+                            />
+                        ))
+                    ) : (
+                        <h2>Cart is empty</h2>
+                    )}
+                </div>
+                <div className="w-full p-4">
+                    <h2>Price:</h2>
+                    <br />
+                    {items.map((item: CartItem) => (
+                        <div key={item.id}>
+                            {item.title}: <br /> {item.price} * {item.quantity} ={' '}
+                            {item.price * item.quantity}
+                        </div>
+                    ))}
+                    <h3>{totalPrice}</h3>
+                </div>
+            </div>
+        </>
     );
 };
 
