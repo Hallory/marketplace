@@ -1,30 +1,31 @@
 'use client';
 
-// import CartItem from './CartItem/CartItem';
+import { RootState } from '../store/store';
+import CartItem from './CartItem/CartItem';
+import { useSelector } from 'react-redux';
 
 const CartPage = () => {
-    // const cartItems: [{ id: string; name: string; price: number }] = [
-    //     {
-    //         id: '1',
-    //         name: 'Product 1',
-    //         price: 10.99,
-    //     },
-    //     {
-    //         id: '2',
-    //         name: 'Product 2',
-    //         price: 19.99,
-    //     },
-    //     {
-    //         id: '3',
-    //         name: 'Product 3',
-    //         price: 29.99,
-    //     },
-    // ];
+    const cartItems = useSelector((state: RootState) => state.cart.items);
+    interface CartItem {
+        id: number;
+        title: string;
+        price: number;
+        description: string;
+        image: string;
+        quantity: number;
+    }
     return (
         <div>
-            {/* {cartItems.map((item) => (
-                <CartItem key={item.id} product={item} />
-            ))} */}
+            {cartItems[0] ? (
+                cartItems.map((item: CartItem) => (
+                    <CartItem
+                        key={item.id}
+                        product={!item.quantity ? { ...item, quantity: 1 } : item}
+                    />
+                ))
+            ) : (
+                <h2>Cart is empty</h2>
+            )}
         </div>
     );
 };

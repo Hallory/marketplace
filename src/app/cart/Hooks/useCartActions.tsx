@@ -4,15 +4,22 @@ import { useDispatch } from 'react-redux';
 export const useCartActions = () => {
     const dispatch = useDispatch();
 
-    const addToCart = (item: { id: string; name: string; price: number; quantity: number }) => {
+    const addToCart = (item: {
+        id: number;
+        title: string;
+        price: number;
+        description: string;
+        image: string;
+        quantity: number;
+    }) => {
         dispatch(addItem(item));
     };
 
-    const removeFromCart = (id: string) => {
+    const removeFromCart = (id: number) => {
         dispatch(removeItem(id));
     };
 
-    const setQuantity = (id: string, quantity: number) => {
+    const setQuantity = (id: number, quantity: number) => {
         dispatch(updateQuantity({ id, quantity }));
     };
 
